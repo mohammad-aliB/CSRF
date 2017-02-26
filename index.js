@@ -13,6 +13,7 @@ exports.generateToken=function(domain,sessionID,CSRF_Store,res,callback){
                 var d = new Date(); 
                 d.setFullYear(d.getFullYear() + 10);
                 res.writeHead(200, {'Set-Cookie': 'sessionID='+sessionID+'; Expires='+d+"; HttpOnly;"})
+                res.write("ASDGJTHOGRNSJKFDVBCIUFHJORKLEMS")
                 return callback(res,CSRFToken)
             });
         }else{
