@@ -29,7 +29,7 @@ exports.validateToken=function(domain,CSRF_Store,reqheaders,sessionID,CSRFToken,
             if(CSRFToken&&sessionID){
                 CSRF_Store.update({"Domain":domain,"SessionID": sessionID,"CSRFToken":CSRFToken, "Used":0}, function(err, document) {
                     if (err){throw err;}
-                    if (document){
+                    if (document.n==1){
                         callback(1);
                     }else{
                         callback(0);
