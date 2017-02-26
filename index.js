@@ -6,18 +6,17 @@ exports.generateToken=function(domain,sessionID,CSRF_Store,res,callback){
     if(sessionID){var sessionID=sessionID.replace(/[^a-z0-9]/g,"")}
     crypto.randomBytes(48, function(err, buffer) {
         var CSRFToken = buffer.toString('hex');
-        if(sessionID!==null&&sessionID==""){
+        if(sessionID!==null&&sessionID!==""){
             crypto.randomBytes(48, function(err, buffer) {
                 sessionID = buffer.toString('hex');
                 CSRF_Store.insert({"Domain":domain,"sessionID": sessionID, "CSRFToken": CSRFToken, "Used":0})   
                 var d = new Date(); 
                 d.setFullYear(d.getFullYear() + 10);
                 res.writeHead(200, {'Set-Cookie': 'sessionID='+sessionID+'; Expires='+d+"; HttpOnly;"})
-
                 return callback(res,CSRFToken)
             });
         }else{
-            res.end("ASDGJTHOGRNSJKFDVBCIUFHJORKLEMS")
+            //res.end("ASDGJTHOGRNSJKFDVBCIUFHJORKLEMS")
            // SessionID=sessionID.replace(/[^a-z0-9]/g,"")
             CSRF_Store.insert({"Domain":domain,"sessionID": sessionID, "CSRFToken": CSRFToken,"Used":0})
             return callback(res,CSRFToken)
