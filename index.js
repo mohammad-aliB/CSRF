@@ -13,12 +13,12 @@ exports.generateToken=function(domain,sessionID,CSRF_Store,res,callback){
                 var d = new Date(); 
                 d.setFullYear(d.getFullYear() + 10);
                 res.writeHead(200, {'Set-Cookie': 'sessionID='+sessionID+'; Expires='+d+"; HttpOnly;"})
-                return callback(CSRFToken)
+                return callback(res,CSRFToken)
             });
         }else{
            // SessionID=sessionID.replace(/[^a-z0-9]/g,"")
             CSRF_Store.insert({"Domain":domain,"sessionID": sessionID, "CSRFToken": CSRFToken,"Used":0})
-            return callback(CSRFToken)
+            return callback(res,CSRFToken)
         }
     });
 }
