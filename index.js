@@ -16,7 +16,7 @@ exports.generateToken=function(domain,sessionID,CSRF_Store,res,callback){
                 return callback(CSRFToken)
             });
         }else{
-            SessionID=sessionID.replace(/[^a-z0-9]/g,"")
+           // SessionID=sessionID.replace(/[^a-z0-9]/g,"")
             CSRF_Store.insert({"Domain":domain,"SessionID": SessionID, "CSRFToken": CSRFToken,"Used":0})
             return callback(CSRFToken)
         }
