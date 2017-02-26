@@ -23,8 +23,8 @@ exports.generateToken=function(domain,sessionID,CSRF_Store,res,callback){
     });
 }
 exports.validateToken=function(domain,CSRF_Store,reqheaders,sessionID,CSRFToken,callback){
-    var sessionID=sessionID.replace(/[^a-z0-9]/g,"")
-    var CSRFToken=CSRFToken.replace(/[^a-z0-9]/g,"")
+    if(sessionID){var sessionID=sessionID.replace(/[^a-z0-9]/g,"")}
+    if(CSRFToken){var CSRFToken=CSRFToken.replace(/[^a-z0-9]/g,"")}
     if(reqheaders.host&&reqheaders.host==domain){
         if(reqheaders.origin&&reqheaders.origin=="https://"+domain){
             if(CSRFToken&&sessionID){
