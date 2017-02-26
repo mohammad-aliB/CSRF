@@ -2,7 +2,7 @@
 
 const crypto = require('crypto');
 
-exports.generateToken=function(domain,sessionID,CSRF_Store,res,callback)){
+exports.generateToken=function(domain,sessionID,CSRF_Store,res,callback){
     var sessionID=sessionID.replace(/[^a-z0-9]/g,"")
     crypto.randomBytes(48, function(err, buffer) {
         var CSRFToken = buffer.toString('hex');
