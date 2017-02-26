@@ -17,9 +17,10 @@ exports.generateToken=function(domain,sessionID,CSRF_Store,res,callback){
             });
         }else{
             SessionID=sessionID.replace(/[^a-z0-9]/g,"")
-            CSRF_Store.insert({"SessionID": SessionID, "CSRFToken": CSRFToken })
+            CSRF_Store.insert({"Domain":domain,"SessionID": SessionID, "CSRFToken": CSRFToken,"Used":0})
             return callback(CSRFToken)
         }
+    });
 }
 exports.validateToken=function(domain,CSRF_Store,reqheaders,sessionID,CSRFToken,callback){
     var sessionID=sessionID.replace(/[^a-z0-9]/g,"")
