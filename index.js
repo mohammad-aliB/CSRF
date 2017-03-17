@@ -23,13 +23,13 @@ exports.generateToken=function(domain,sessionID,CSRF_Store,res,callback){
         }
     });
 }
-exports.validateToken=function(domain,CSRF_Store,reqheaders,sessionID,CSRFToken,callback){
+exports.validateToken=function(domain,CSRF_Store,reqheaders,sessionID,CSRFToken,callback,googleCaptchaResponse){
     if(sessionID){var sessionID=sessionID.replace(/[^a-z0-9]/g,"")}
     if(CSRFToken){var CSRFToken=CSRFToken.replace(/[^a-z0-9]/g,"")}
     if(reqheaders.host&&reqheaders.host==domain){
         if(reqheaders.origin&&reqheaders.origin=="https://"+domain){
             if(CSRFToken&&sessionID){
-                CSRF_Store.update({"Domain":domain,"sessionID": sessionID,"CSRFToken":CSRFToken, "Used":0}, function(err, document) {
+                CSRF_Store.update({"Domain":domain,"sessionID": sessionID,"CSRFToken":CSRFToken, "Used":0},{$set: {"Used":1}}, function(err, document) {//could be a findandmodify
                     if (err){throw err;}
                     if (document.n==1){
                         callback(1);
