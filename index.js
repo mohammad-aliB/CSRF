@@ -23,7 +23,7 @@ exports.generateToken=function(domain,sessionID,CSRF_Store,res,callback){
         }
     });
 }
-exports.validateToken=function(domain,CSRF_Store,reqheaders,sessionID,CSRFToken,callback,googleCaptchaResponse){
+exports.validateToken=function(domain,CSRF_Store,reqheaders,sessionID,CSRFToken,callback/*,googleCaptchaResponse*/){
     if(sessionID){var sessionID=sessionID.replace(/[^a-z0-9]/g,"")}
     if(CSRFToken){var CSRFToken=CSRFToken.replace(/[^a-z0-9]/g,"")}
     if(reqheaders.host&&reqheaders.host==domain){
