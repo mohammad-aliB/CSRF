@@ -6,7 +6,7 @@ exports.generateToken=function(domain,sessionID,CSRF_Store,res,callback){
     if(sessionID){var sessionID=sessionID.replace(/[^a-z0-9]/g,"")}
     crypto.randomBytes(48, function(err, buffer) {
         var CSRFToken = buffer.toString('hex');
-        if(sessionID!==null&&sessionID!==""){
+        if(sessionID==null||sessionID==""){
             crypto.randomBytes(48, function(err, buffer) {
                 sessionID = buffer.toString('hex');
                 CSRF_Store.insert({"Domain":domain,"sessionID": sessionID, "CSRFToken": CSRFToken, "Used":0})   
