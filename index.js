@@ -9,7 +9,7 @@ exports.generateToken=function(domain,sessionID,CSRF_Store,res,callback){
         if(sessionID==null||sessionID==""){
             crypto.randomBytes(48, function(err, buffer) {
                 sessionID = buffer.toString('hex');
-                CSRF_Store.insert({"Domain":domain,"sessionID": sessionID, "CSRFToken": CSRFToken, "Used":0})   
+                CSRF_Store.insert({"domain":domain,"sessionID": sessionID, "CSRFToken": CSRFToken, "Used":0})   
                 var d = new Date(); 
                 d.setFullYear(d.getFullYear() + 10);
                 res.writeHead(200, {'Set-Cookie': 'sessionID='+sessionID+'; Expires='+d+"; HttpOnly;"})
@@ -18,7 +18,7 @@ exports.generateToken=function(domain,sessionID,CSRF_Store,res,callback){
         }else{
             //res.end("ASDGJTHOGRNSJKFDVBCIUFHJORKLEMS")
            // SessionID=sessionID.replace(/[^a-z0-9]/g,"")
-            CSRF_Store.insert({"Domain":domain,"sessionID": sessionID, "CSRFToken": CSRFToken,"Used":0})
+            CSRF_Store.insert({"domain":domain,"sessionID": sessionID, "CSRFToken": CSRFToken,"Used":0})
             return callback(res,CSRFToken)
         }
     });
@@ -29,9 +29,9 @@ exports.validateToken=function(domain,CSRF_Store,reqheaders,sessionID,CSRFToken,
     if(reqheaders.host&&reqheaders.host==domain){
         if(reqheaders.origin&&reqheaders.origin=="https://"+domain){
             if(CSRFToken&&sessionID){
-                CSRF_Store.update({"Domain":domain,"sessionID": sessionID,"CSRFToken":CSRFToken, "Used":0},{$set: {"Used":1}}, function(err, document) {//could be a findandmodify
+                CSRF_Store.update({"domain":domain,"sessionID": sessionID,"CSRFToken":CSRFToken, "Used":0},{$set: {"Used":1}}, function(err, document) {//could be a findandmodify
                     if (err){throw err;}
-                    if (document.n==1){
+                    if (document.result.nModified==1){
                         callback(1);
                     }else{
                         callback(0);
