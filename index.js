@@ -32,7 +32,7 @@ exports.validateToken=function(domain,CSRF_Store,reqheaders,sessionID,CSRFToken,
                 CSRF_Store.update({"domain":domain,"sessionID": sessionID,"CSRFToken":CSRFToken, "Used":0},{$set: {"Used":1}}, function(err, document) {//could be a findandmodify
                     if (err){throw err;}
                     if (document.result.nModified==1){
-                        callback(1);
+                        callback(1);//1 is successful 0 is unsuccessful
                     }else{
                         callback(0);
                     }
